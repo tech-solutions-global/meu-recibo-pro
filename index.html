@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Recibo Profissional Grátis</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        h1 { color: #2c3e50; text-align: center; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background: #219150; }
+        .footer { margin-top: 20px; font-size: 12px; color: #7f8c8d; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Recibo</h1>
+        <p style="text-align: center;">Preencha os dados e gere o seu PDF profissional.</p>
+        <input type="text" id="pagador" placeholder="Nome de quem pagou">
+        <input type="number" id="valor" placeholder="Valor (Ex: 1500.00)">
+        <textarea id="referente" placeholder="Referente a qual serviço ou produto?"></textarea>
+        <input type="text" id="emissor" placeholder="Seu nome ou nome da sua empresa">
+        <button onclick="gerarRecibo()">GERAR RECIBO (PDF)</button>
+        
+        <div class="footer">
+            © 2026 - Ferramenta Gratuita de Utilidade Pública.
+        </div>
+    </div>
+
+    <script>
+        function gerarRecibo() {
+            const p = document.getElementById('pagador').value;
+            const v = document.getElementById('valor').value;
+            const r = document.getElementById('referente').value;
+            const e = document.getElementById('emissor').value;
+            const data = new Date().toLocaleDateString('pt-BR');
+
+            const conteudo = `
+                RECIBO DE PAGAMENTO\n\n
+                Recebemos de ${p} a quantia de R$ ${v},\n
+                referente a: ${r}.\n\n
+                Emitido por: ${e}\n
+                Data: ${data}\n\n
+                Assinatura: ___________________________
+            `;
+            
+            const blob = new Blob([conteudo], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'recibo.txt';
+            link.click();
+        }
+    </script>
+</body>
+</html>
