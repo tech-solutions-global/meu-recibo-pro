@@ -55,7 +55,7 @@
     </div>
 
     <button onclick="gerarRecibo()">Gerar Recibo em PDF</button>
-
+<button onclick="enviarWhatsApp()" style="background: #25d366; margin-top: 10px;">Enviar por WhatsApp</button>
     <div class="footer-seo">
         <h3>Por que usar nosso Gerador de Recibo?</h3>
         <p>Emitir recibos profissionais é essencial para a transparência financeira de autônomos e MEIs. Nossa ferramenta gratuita permite que você gere comprovantes de pagamento válidos em segundos, prontos para impressão ou envio digital. Ideal para profissionais liberais, prestadores de serviços e controle de aluguel.</p>
@@ -108,6 +108,21 @@
         // Gerar e baixar o PDF
         html2pdf().set(opc).from(elemento).save();
     }
+function enviarWhatsApp() {
+    const valor = document.getElementById('valor').value;
+    const pagador = document.getElementById('pagador').value;
+    const descricao = document.getElementById('descricao').value;
+    const emissor = document.getElementById('emissor').value;
+
+    const mensagem = `*RECIBO DE PAGAMENTO*%0A%0A` +
+                     `*Valor:* R$ ${valor}%0A` +
+                     `*Recebi de:* ${pagador}%0A` +
+                     `*Referente a:* ${descricao}%0A` +
+                     `*Emissor:* ${emissor}%0A%0A` +
+                     `Gerado via: ${window.location.href}`;
+
+    window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
+}
 </script>
 
 </body>
