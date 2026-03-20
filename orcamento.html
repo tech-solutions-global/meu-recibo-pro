@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Orçamento Profissional Grátis | PDF e WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #b45309; --secondary: #92400e; --bg: #fffbeb; --text: #451a03; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        nav { background: #1e293b; padding: 15px; text-align: center; margin-bottom: 20px; border-radius: 8px; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: 600; }
+        .container { max-width: 850px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { color: var(--primary); text-align: center; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #fcd34d; border-radius: 6px; box-sizing: border-box; }
+        .full-width { grid-column: span 2; }
+        button { width: 100%; border: none; padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 18px; margin-top: 10px; color: white; }
+        .btn-pdf { background: var(--primary); }
+        .btn-ws { background: #25d366; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Recibo Geral</a>
+    <a href="aluguel.html">Recibo de Aluguel</a>
+    <a href="orcamento.html" style="color: #fcd34d;">Orçamento Profissional</a>
+</nav>
+
+<div class="container">
+    <h1>Gerador de Orçamento</h1>
+    <div class="grid">
+        <div class="full-width"><label>Nome do Cliente / Empresa</label><input type="text" id="cliente" placeholder="Para quem é o orçamento?"></div>
+        <div class="full-width"><label>Descrição dos Serviços / Produtos</label><textarea id="servicos" rows="4" placeholder="Liste o que será feito e os valores..."></textarea></div>
+        <div><label>Valor Total Estimado (R$)</label><input type="number" id="total" placeholder="Ex: 2500,00"></div>
+        <div><label>Prazo de Entrega / Validade</label><input type="text" id="prazo" placeholder="Ex: 5 dias úteis"></div>
+        <div class="full-width"><label>Seu Nome / Sua Marca</label><input type="text" id="emissor" placeholder="Quem está oferecendo o serviço?"></div>
+    </div>
+    <button class="btn-pdf" onclick="gerarPDF()">Gerar Orçamento (PDF)</button>
+    <button class="btn-ws" onclick="enviarWS()">Enviar por WhatsApp</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function gerarPDF() {
+        const cliente = document.getElementById('cliente').value;
+        const servicos = document.getElementById('servicos').value;
+        const total = document.getElementById('total').value;
+        const prazo = document.getElementById('prazo').value;
+        const emissor = document.getElementById('emissor').value;
+
+        const el = document.createElement('div');
+        el.innerHTML = `
+            <div style="padding: 40px; border: 5px solid #b45309; font-family: sans-serif;">
+                <h1 style="color: #b45309; text-align: center;">ORÇAMENTO PROFISSIONAL</h1>
+                <p><strong>Cliente:</strong> ${cliente}</p>
+                <hr>
+                <p><strong>Descrição:</strong><br>${servicos.replace(/\n/g, '<br>')}</p>
+                <p><strong>VALOR TOTAL:</strong> R$ ${total}</p>
+                <p><strong>Validade/Prazo:</strong> ${prazo}</p>
+                <p style="margin-top: 50px; text-align: center;">Atenciosamente,<br><strong>${emissor}</strong></p>
+            </div>
+        `;
+        html2pdf().from(el).save('orcamento.pdf');
+    }
+
+    function enviarWS() {
+        const cliente = document.getElementById('cliente').value;
+        const total = document.getElementById('total').value;
+        const msg = `*ORÇAMENTO PROFISSIONAL*%0A%0A*Cliente:* ${cliente}%0A*Valor:* R$ ${total}%0A%0AOlá, segue o orçamento solicitado. Gostaria de agendar?`;
+        window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+    }
+</script>
+</body>
+</html>
