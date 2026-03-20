@@ -62,10 +62,51 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-    // Aqui colocaremos a lógica de geração de PDF e WhatsApp no próximo passo
     function gerarRecibo() {
-        alert("Estamos configurando a geração de PDF de alta fidelidade agora!");
+        // Pegando os dados que o usuário digitou
+        const valor = document.getElementById('valor').value;
+        const data = document.getElementById('data').value;
+        const pagador = document.getElementById('pagador').value;
+        const descricao = document.getElementById('descricao').value;
+        const emissor = document.getElementById('emissor').value;
+
+        if(!valor || !pagador) {
+            alert("Por favor, preencha pelo menos o valor e o nome de quem pagou.");
+            return;
+        }
+
+        // Criando o visual do recibo que vai para o PDF
+        const elemento = document.createElement('div');
+        elemento.innerHTML = `
+            <div style="padding: 50px; border: 2px solid #333; font-family: sans-serif; line-height: 1.6;">
+                <h1 style="text-align: center; color: #2563eb;">RECIBO DE PAGAMENTO</h1>
+                <div style="margin-top: 30px; font-size: 20px;">
+                    <p><strong>VALOR:</strong> R$ ${valor}</p>
+                    <p>Recebi de <strong>${pagador}</strong> a quantia acima discriminada.</p>
+                    <p><strong>Referente a:</strong> ${descricao}</p>
+                    <p style="margin-top: 40px; text-align: right;">Data: ${data}</p>
+                    <div style="margin-top: 80px; border-top: 1px solid #000; text-align: center; width: 300px; margin-left: auto; margin-right: auto;">
+                        <p>${emissor}</p>
+                        <p style="font-size: 12px;">Assinatura do Emissor</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Configuração do arquivo PDF
+        const opc = {
+            margin: 10,
+            filename: 'recibo-profissional.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Gerar e baixar o PDF
+        html2pdf().set(opc).from(elemento).save();
     }
 </script>
 
