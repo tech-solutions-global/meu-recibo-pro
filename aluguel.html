@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Aluguel Online | Gerador Grátis com PDF</title>
+    <meta name="description" content="Gerador de recibo de aluguel residencial e comercial. Crie seu comprovante de aluguel grátis, salve em PDF ou envie por WhatsApp.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #059669; --secondary: #047857; --bg: #f0fdf4; --text: #064e3b; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .full-width { grid-column: span 2; }
+        .btn-pdf { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 18px; }
+        .btn-ws { width: 100%; background: #25d366; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Recibo de Aluguel Profissional</h1>
+    <p class="subtitle">Comprovante de pagamento de locação residencial ou comercial</p>
+    
+    <div class="grid">
+        <div><label>Valor do Aluguel (R$)</label><input type="number" id="valor" placeholder="Ex: 1200,00"></div>
+        <div><label>Mês de Referência</label><input type="text" id="mes" placeholder="Ex: Janeiro/2026"></div>
+        <div class="full-width"><label>Endereço do Imóvel</label><input type="text" id="endereco" placeholder="Rua, Número, Bairro"></div>
+        <div class="full-width"><label>Nome do Locatário (Inquilino)</label><input type="text" id="pagador" placeholder="Quem pagou o aluguel?"></div>
+        <div class="full-width"><label>Nome do Locador (Proprietário)</label><input type="text" id="emissor" placeholder="Seu nome ou imobiliária"></div>
+    </div>
+
+    <button class="btn-pdf" onclick="gerarRecibo()">Baixar Recibo (PDF)</button>
+    <button class="btn-ws" onclick="enviarWhatsApp()">Enviar para Inquilino (WhatsApp)</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function gerarRecibo() {
+        const valor = document.getElementById('valor').value;
+        const mes = document.getElementById('mes').value;
+        const endereco = document.getElementById('endereco').value;
+        const pagador = document.getElementById('pagador').value;
+        const emissor = document.getElementById('emissor').value;
+
+        const elemento = document.createElement('div');
+        elemento.innerHTML = `
+            <div style="padding: 50px; border: 2px solid #333; font-family: sans-serif;">
+                <h1 style="text-align: center; color: #059669;">RECIBO DE ALUGUEL</h1>
+                <p>Recebi de <strong>${pagador}</strong> a importância de <strong>R$ ${valor}</strong> referente ao aluguel do mês de <strong>${mes}</strong> do imóvel situado em: ${endereco}.</p>
+                <p style="margin-top: 50px; text-align: center;">__________________________________________<br>${emissor}</p>
+            </div>
+        `;
+        html2pdf().from(elemento).save('recibo-aluguel.pdf');
+    }
+
+    function enviarWhatsApp() {
+        const valor = document.getElementById('valor').value;
+        const mes = document.getElementById('mes').value;
+        const pagador = document.getElementById('pagador').value;
+        const mensagem = `*RECIBO DE ALUGUEL*%0A%0A*Locatário:* ${pagador}%0A*Mês:* ${mes}%0A*Valor:* R$ ${valor}%0A%0AConfirmamos o recebimento do aluguel.`;
+        window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
+    }
+</script>
+</body>
+</html>
