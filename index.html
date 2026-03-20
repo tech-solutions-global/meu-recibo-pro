@@ -1,57 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8"><meta name="google-site-verification" content="FDCsZFi4O9Qcynp_aqyXGMzVHfViQ1KUav5kESES8p8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Recibo Profissional Grátis</title>
+    <title>Gerador de Recibo Online Grátis | Profissional e Rápido</title>
+    <meta name="description" content="Crie recibos profissionais em segundos. Gerador de recibo grátis com opção de PDF e envio por WhatsApp. Ideal para autônomos e empresas.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
-        h1 { color: #2c3e50; text-align: center; }
-        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        button:hover { background: #219150; }
-        .footer { margin-top: 20px; font-size: 12px; color: #7f8c8d; text-align: center; }
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        h1 { font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        .full-width { grid-column: span 2; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 20px; font-size: 18px; }
+        button:hover { background: var(--secondary); transform: translateY(-1px); }
+        .footer-seo { margin-top: 40px; font-size: 13px; color: #64748b; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Gerador de Recibo</h1>
-        <p style="text-align: center;">Preencha os dados e gere o seu PDF profissional.</p>
-        <input type="text" id="pagador" placeholder="Nome de quem pagou">
-        <input type="number" id="valor" placeholder="Valor (Ex: 1500.00)">
-        <textarea id="referente" placeholder="Referente a qual serviço ou produto?"></textarea>
-        <input type="text" id="emissor" placeholder="Seu nome ou nome da sua empresa">
-        <button onclick="gerarRecibo()">GERAR RECIBO (PDF)</button>
-        
-        <div class="footer">
-            © 2026 - Ferramenta Gratuita de Utilidade Pública.
+
+<div class="container">
+    <h1>Gerador de Recibo Profissional</h1>
+    
+    <div class="grid">
+        <div>
+            <label>Valor (R$)</label>
+            <input type="number" id="valor" placeholder="Ex: 1500,00">
+        </div>
+        <div>
+            <label>Data</label>
+            <input type="date" id="data">
+        </div>
+        <div class="full-width">
+            <label>Recebi de (Nome/Empresa)</label>
+            <input type="text" id="pagador" placeholder="Quem pagou?">
+        </div>
+        <div class="full-width">
+            <label>Referente a (Serviço/Produto)</label>
+            <textarea id="descricao" rows="3" placeholder="Ex: Consultoria de enfermagem ou Aluguel de março"></textarea>
+        </div>
+        <div class="full-width">
+            <label>Nome do Emissor (Você)</label>
+            <input type="text" id="emissor" placeholder="Seu nome ou sua empresa">
         </div>
     </div>
 
-    <script>
-        function gerarRecibo() {
-            const p = document.getElementById('pagador').value;
-            const v = document.getElementById('valor').value;
-            const r = document.getElementById('referente').value;
-            const e = document.getElementById('emissor').value;
-            const data = new Date().toLocaleDateString('pt-BR');
+    <button onclick="gerarRecibo()">Gerar Recibo em PDF</button>
 
-            const conteudo = `
-                RECIBO DE PAGAMENTO\n\n
-                Recebemos de ${p} a quantia de R$ ${v},\n
-                referente a: ${r}.\n\n
-                Emitido por: ${e}\n
-                Data: ${data}\n\n
-                Assinatura: ___________________________
-            `;
-            
-            const blob = new Blob([conteudo], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = 'recibo.txt';
-            link.click();
-        }
-    </script>
+    <div class="footer-seo">
+        <h3>Por que usar nosso Gerador de Recibo?</h3>
+        <p>Emitir recibos profissionais é essencial para a transparência financeira de autônomos e MEIs. Nossa ferramenta gratuita permite que você gere comprovantes de pagamento válidos em segundos, prontos para impressão ou envio digital. Ideal para profissionais liberais, prestadores de serviços e controle de aluguel.</p>
+    </div>
+</div>
+
+<script>
+    // Aqui colocaremos a lógica de geração de PDF e WhatsApp no próximo passo
+    function gerarRecibo() {
+        alert("Estamos configurando a geração de PDF de alta fidelidade agora!");
+    }
+</script>
+
 </body>
 </html>
